@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Context docBase="C:\Users\iser\ThinkingDest\jsp_projects\jsp_board\src\webapp">
-  <Resources cacheMaxSize="10240">
-    <PreResources base="C:/Users/iser/ThinkingDest/jsp_projects/jsp_board/target/classes" className="org.apache.catalina.webresources.DirResourceSet" webAppMount="/WEB-INF/classes"/>
-    <PreResources base="C:/Users/iser/ThinkingDest/apache-tomcat-10.1.11" className="org.apache.catalina.webresources.DirResourceSet" webAppMount="/WEB-INF/classes"/>
-  </Resources>
-</Context>
