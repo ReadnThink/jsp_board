@@ -1,4 +1,4 @@
-package com.jsp.board.servlet;
+package com.jsp.board.servlet.test;
 
 import com.jsp.board.util.ServletResponseDto;
 import jakarta.servlet.RequestDispatcher;
