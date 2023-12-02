@@ -1,6 +1,7 @@
 package com.jsp.board.servlet;
 
 import com.jsp.board.util.ServletResponseDto;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,9 +19,10 @@ public class GugudanServlet extends HttpServlet {
         int dan = servletResponseDto.getIntParam(("dan"), 9);
         int limit = servletResponseDto.getIntParam(("limit"), 9);
 
-        servletResponseDto.appendBody("<h1>%d단</h1>\n".formatted(dan));
-        for (int i = 1; i <= limit; i++) {
-            servletResponseDto.appendBody(("<div>%d * %d = %d <div>\n".formatted(dan, i, dan * i)));
-        }
+        servletResponseDto.setAttribute("dan", dan);
+        servletResponseDto.setAttribute("limit", limit);
+
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/gugudan2.jsp");
+        requestDispatcher.forward(req, resp);
     }
 }

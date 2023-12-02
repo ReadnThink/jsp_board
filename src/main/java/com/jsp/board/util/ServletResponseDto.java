@@ -55,4 +55,12 @@ public class ServletResponseDto {
             throw new RuntimeException(e);
         }
     }
+
+    public Object getAttribute(String name) {
+        return req.getAttribute(name);
+    }
+
+    public void setAttribute(String name, Object value) {
+        req.setAttribute(name, value);
+    }
 }

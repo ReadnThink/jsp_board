@@ -3,8 +3,8 @@
 
 <%
     ServletResponseDto servletResponseDto = new ServletResponseDto(request, response);
-    int dan = servletResponseDto.getIntParam("dan", 9);
-    int limit = servletResponseDto.getIntParam("limit", 9);
+    int dan = (int)servletResponseDto.getAttribute("dan");
+    int limit = (int)servletResponseDto.getAttribute("limit");
 %>
 
 <h1><%=dan%>단</h1>
