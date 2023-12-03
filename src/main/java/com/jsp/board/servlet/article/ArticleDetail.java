@@ -49,8 +49,7 @@ public class ArticleDetail extends HttpServlet {
         final Map<String, Object> articleRow = MysqlUtil.selectRow(sql);
         servletResponseDto.setAttribute("articleRow", articleRow);
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/article/detail.jsp");
-        requestDispatcher.forward(req, resp);
+        servletResponseDto.jsp("article/detail");
 
         MysqlUtil.closeConnection();
     }

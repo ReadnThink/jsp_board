@@ -30,8 +30,7 @@ public class ArticleList extends HttpServlet {
         final List<Map<String, Object>> articleList = MysqlUtil.selectRows(sql);
         servletResponseDto.setAttribute("articleList", articleList);
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/article/list.jsp");
-        requestDispatcher.forward(req, resp);
+        servletResponseDto.jsp("article/list");
 
         MysqlUtil.closeConnection();
     }

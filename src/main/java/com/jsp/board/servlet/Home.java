@@ -15,7 +15,7 @@ public class Home extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         ServletResponseDto servletResponseDto = new ServletResponseDto(req, resp);
 
-        servletResponseDto.appendBody("<h1>메인 페이지입니다.</h1>");
+        servletResponseDto.jsp("home/main");
     }
 
     @Override

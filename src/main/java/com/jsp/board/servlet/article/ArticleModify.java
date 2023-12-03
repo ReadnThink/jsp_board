@@ -41,8 +41,7 @@ public class ArticleModify extends HttpServlet {
         final Map<String, Object> articleRow = MysqlUtil.selectRow(sql);
         servletResponseDto.setAttribute("articleRow", articleRow);
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/article/modify.jsp");
-        requestDispatcher.forward(req,resp);
+        servletResponseDto.jsp("article/modify");
 
         MysqlUtil.closeConnection();
     }

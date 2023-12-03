@@ -1,5 +1,7 @@
 package com.jsp.board.util;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -62,5 +64,14 @@ public class ServletResponseDto {
 
     public void setAttribute(String name, Object value) {
         req.setAttribute(name, value);
+    }
+
+    public void jsp(final String jspPath) {
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/" + jspPath + ".jsp");
+        try {
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
