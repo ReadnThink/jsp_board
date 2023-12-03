@@ -13,8 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet("/article/detail")
-public class ArticleDetail extends HttpServlet {
+@WebServlet("/article/delete")
+public class ArticleDelete extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         MysqlUtil.setDBInfo("localhost", "root", "1234", "jspboard");
@@ -37,20 +37,28 @@ public class ArticleDetail extends HttpServlet {
         boolean articleIsExist = MysqlUtil.selectRowBooleanValue(sql);
 
         if (articleIsExist == false) {
-            servletResponseDto.appendBody("<script>alert('해당 게시물은 없는 게시물입니다.'); history.back(); </script>");
+            servletResponseDto.appendBody("""
+                    <script>
+                        alert('해당 게시물은 없는 게시물입니다.'); 
+                        location.replace('list'); 
+                    </script>
+                    """);
             return;
         }
 
         sql = new SecSql();
-        sql.append("SELECT *");
+        sql.append("DELETE ");
         sql.append("FROM article ");
         sql.append("WHERE id = ?", id);
 
-        final Map<String, Object> articleRow = MysqlUtil.selectRow(sql);
-        servletResponseDto.setAttribute("articleRow", articleRow);
+        MysqlUtil.delete(sql);
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/article/detail.jsp");
-        requestDispatcher.forward(req, resp);
+        servletResponseDto.appendBody("""
+                    <script>
+                        alert('%d번 게시물이 삭제되었습니다..'); 
+                        location.replace('list'); 
+                    </script>
+                    """.formatted(id));
     }
 }
 
