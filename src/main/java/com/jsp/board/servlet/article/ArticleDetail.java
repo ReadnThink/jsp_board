@@ -51,6 +51,8 @@ public class ArticleDetail extends HttpServlet {
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/article/detail.jsp");
         requestDispatcher.forward(req, resp);
+
+        MysqlUtil.closeConnection();
     }
 }
 

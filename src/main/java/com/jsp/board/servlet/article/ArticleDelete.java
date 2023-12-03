@@ -59,6 +59,8 @@ public class ArticleDelete extends HttpServlet {
                         location.replace('list'); 
                     </script>
                     """.formatted(id));
+
+        MysqlUtil.closeConnection();
     }
 }
 
