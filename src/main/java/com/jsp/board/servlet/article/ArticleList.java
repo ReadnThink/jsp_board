@@ -22,13 +22,27 @@ public class ArticleList extends HttpServlet {
         MysqlUtil.setDevMode(true);
 
         ServletResponseDto servletResponseDto = new ServletResponseDto(req, resp);
+        int page = servletResponseDto.getIntParam("page", 1);
+        int limitTo = 20;
+        int limitFrom = (page - 1) * limitTo;
+
         SecSql sql = new SecSql();
+        sql.append("SELECT COUNT(*)");
+        sql.append("FROM article");
+
+        int totalCount = MysqlUtil.selectRowIntValue(sql);
+        int totalPage = (int) Math.ceil((double)totalCount / limitTo);
+
+        sql = new SecSql();
         sql.append("SELECT *");
         sql.append("FROM article ");
         sql.append("ORDER BY id DESC");
+        sql.append("LIMIT ?, ?", limitFrom, limitTo);
 
         final List<Map<String, Object>> articleList = MysqlUtil.selectRows(sql);
         servletResponseDto.setAttribute("articleList", articleList);
+        servletResponseDto.setAttribute("page", page);
+        servletResponseDto.setAttribute("totalPage", totalPage);
 
         servletResponseDto.jsp("article/list");
 

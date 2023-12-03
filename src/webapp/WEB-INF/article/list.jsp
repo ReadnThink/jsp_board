@@ -7,6 +7,8 @@
 <%
     ServletResponseDto servletResponseDto = new ServletResponseDto(request, response);
     List<Map<String, Object>> articleList = (List<Map<String, Object>>)servletResponseDto.getAttribute("articleList");
+    int curPage = (int)servletResponseDto.getAttribute("page");
+    int totalPage = (int)servletResponseDto.getAttribute("totalPage");
 %>
 
 <!doctype html>
@@ -19,7 +21,7 @@
     <title>게시물 리스트</title>
 </head>
 <body>
-<style>
+<style >
     body, ul, li {
         margin: 0;
     }
@@ -27,6 +29,10 @@
     .section {
         display: flex;
         justify-content: center;
+    }
+
+    .page > a.red {
+        coler: red;
     }
 </style>
 
@@ -65,6 +71,31 @@
         </table>
         <div class="btn-group">
             <a href="write">게시물 작성</a>
+        </div>
+        <div class="page" style="display:flex; justify-content: center; gap: 0 10px;">
+            <% if(curPage > 1){%>
+                <a href="list?page=1">첫페이지</a>
+            <% }%>
+
+            <%
+            int pageMenuSize = 5;
+            int from = curPage - pageMenuSize;
+
+            if (from < 1){
+            from = 1;
+            }
+
+            int end = curPage + pageMenuSize;
+            if (end > totalPage){
+                end = totalPage;
+            }
+
+            for (int i = from; i <= end; i++) {%>
+                <a class="<%= curPage == i ? "red" : "" %>" href="list?page=<%=i%>"><%=i%></a>
+            <% } %>
+            <% if(curPage < totalPage){%>
+                <a href="list?page=<%=totalPage%>">마지막페이지</a>
+            <% }%>
         </div>
     </div>
 </section>
