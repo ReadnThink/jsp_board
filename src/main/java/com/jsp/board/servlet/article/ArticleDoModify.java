@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/article/doWrite")
-public class ArticleDoWrite extends HttpServlet {
+@WebServlet("/article/doModify")
+public class ArticleDoModify extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         MysqlUtil.setDBInfo("localhost", "root", "1234", "jspboard");
@@ -20,6 +20,7 @@ public class ArticleDoWrite extends HttpServlet {
 
         ServletResponseDto servletResponseDto = new ServletResponseDto(req, resp);
 
+        int id = servletResponseDto.getIntParam("id", 0);
         String title = servletResponseDto.getParam("title", "");
         String content = servletResponseDto.getParam("content", "");
 
@@ -42,17 +43,17 @@ public class ArticleDoWrite extends HttpServlet {
         }
 
         SecSql sql = new SecSql();
-        sql.append("INSERT INTO article ");
-        sql.append("SET createDate = NOW()");
-        sql.append(", updateDate = NOW()");
+        sql.append("UPDATE article ");
+        sql.append("SET updateDate = NOW()");
         sql.append(", title = ?",title);
         sql.append(", content = ?",content);
+        sql.append("WHERE id = ?",id);
 
-        int id = MysqlUtil.insert(sql);
-        System.out.println(id);
+        MysqlUtil.update(sql);
+
         servletResponseDto.appendBody("""
                     <script>
-                        alert('%d번 게시물이 생성되었습니다.');
+                        alert('%d번 게시물이 수정되었습니다.');
                         location.replace('detail?id=%d');
                     </script>
                     """.formatted(id,id));

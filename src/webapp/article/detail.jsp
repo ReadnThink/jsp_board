@@ -63,9 +63,9 @@
         <div class="btn-group">
             <a href="list">리스트</a>
             &nbsp;
-            <a href="delete?id=<%= articleRow.get("id") %>">삭제</a>
+            <a href="delete?id=${param.id}">삭제</a>
             &nbsp;
-            <a href="modify?id=<%= articleRow.get("id") %>">수정</a>
+            <a href="modify?id=${param.id}">수정</a>
         </div>
     </div>
 </section>

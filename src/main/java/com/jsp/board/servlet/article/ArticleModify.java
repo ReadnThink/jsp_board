@@ -13,15 +13,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet("/article/delete")
-public class ArticleDelete extends HttpServlet {
+@WebServlet("/article/modify")
+public class ArticleModify extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         MysqlUtil.setDBInfo("localhost", "root", "1234", "jspboard");
         MysqlUtil.setDevMode(true);
 
         ServletResponseDto servletResponseDto = new ServletResponseDto(req, resp);
-
         int id = servletResponseDto.getIntParam("id", 0);
 
         if (id == 0) {
@@ -35,35 +34,15 @@ public class ArticleDelete extends HttpServlet {
         }
 
         SecSql sql = new SecSql();
-        sql.append("SELECT COUNT(*)");
+        sql.append("SELECT *");
         sql.append("FROM article ");
         sql.append("WHERE id = ?", id);
 
-        boolean articleIsExist = MysqlUtil.selectRowBooleanValue(sql);
+        final Map<String, Object> articleRow = MysqlUtil.selectRow(sql);
+        servletResponseDto.setAttribute("articleRow", articleRow);
 
-        if (articleIsExist == false) {
-            servletResponseDto.appendBody("""
-                    <script>
-                        alert('해당 게시물은 없는 게시물입니다.'); 
-                        location.replace('list'); 
-                    </script>
-                    """);
-            return;
-        }
-
-        sql = new SecSql();
-        sql.append("DELETE ");
-        sql.append("FROM article ");
-        sql.append("WHERE id = ?", id);
-
-        MysqlUtil.delete(sql);
-
-        servletResponseDto.appendBody("""
-                    <script>
-                        alert('%d번 게시물이 삭제되었습니다..'); 
-                        location.replace('list'); 
-                    </script>
-                    """.formatted(id));
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/article/modify.jsp");
+        requestDispatcher.forward(req,resp);
 
         MysqlUtil.closeConnection();
     }
