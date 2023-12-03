@@ -35,5 +35,10 @@ public class ArticleList extends HttpServlet {
 
         MysqlUtil.closeConnection();
     }
+
+    @Override
+    protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
 }
 

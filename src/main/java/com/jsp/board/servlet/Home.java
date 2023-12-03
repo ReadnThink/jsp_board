@@ -17,4 +17,9 @@ public class Home extends HttpServlet {
 
         servletResponseDto.appendBody("<h1>메인 페이지입니다.</h1>");
     }
+
+    @Override
+    protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
 }
