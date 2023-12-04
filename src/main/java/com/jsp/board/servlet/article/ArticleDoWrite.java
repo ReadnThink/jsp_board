@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -30,6 +31,7 @@ public class ArticleDoWrite extends HttpServlet {
                         history.back();
                     </script>
                     """);
+            return;
         }
 
         if (content.length() == 0) {
@@ -39,7 +41,20 @@ public class ArticleDoWrite extends HttpServlet {
                         history.back();
                     </script>
                     """);
+            return;
         }
+        HttpSession session = req.getSession();
+        if (session.getAttribute("loginUserId") == null) {
+            servletResponseDto.appendBody("""
+                    <script>
+                        alert('로그인 후 이용해 주세요');
+                        location.replace('../user/login')
+                    </script>
+                    """);
+            return;
+        }
+
+        int loginUserId = (int) session.getAttribute("loginUserId");
 
         SecSql sql = new SecSql();
         sql.append("INSERT INTO article ");
@@ -47,6 +62,7 @@ public class ArticleDoWrite extends HttpServlet {
         sql.append(", updateDate = NOW()");
         sql.append(", title = ?",title);
         sql.append(", content = ?",content);
+        sql.append(", userId = ?", loginUserId);
 
         int id = MysqlUtil.insert(sql);
         System.out.println(id);

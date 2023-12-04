@@ -42,9 +42,12 @@ public class ArticleDetail extends HttpServlet {
         }
 
         sql = new SecSql();
-        sql.append("SELECT *");
-        sql.append("FROM article ");
-        sql.append("WHERE id = ?", id);
+        sql.append("SELECT A.*, U.username AS writer");
+        sql.append("FROM article AS A");
+        sql.append("INNER JOIN `user` AS U");
+        sql.append("ON A.userId = U.id");
+        sql.append("WHERE A.id = ?", id);
+        sql.append("ORDER BY A.id DESC");
 
         final Map<String, Object> articleRow = MysqlUtil.selectRow(sql);
         servletResponseDto.setAttribute("articleRow", articleRow);

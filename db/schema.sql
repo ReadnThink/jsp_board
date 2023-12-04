@@ -1,6 +1,7 @@
 create schema jspboard default character set utf8 collate utf8_unicode_ci;
 use jspboard;
 
+-- article
 CREATE Table article (
                          id bigint(20) not null auto_increment,
                          createDate datetime not null,
@@ -9,15 +10,23 @@ CREATE Table article (
                          content longtext not null,
                          primary key(id)
 );
-
+ALTER TABLE article ADD COLUMN userId bigint(20) not null;
 insert into article(createDate, updateDate,title, content)
 values (now(),now(),'제목1','내용1');
 
-insert into article(createDate, updateDate,title, content)
-values (now(),now(),'제목2','내용2');
-
-insert into article(createDate, updateDate,title, content)
-values (now(),now(),'제목3','내용3');
+-- user
+CREATE TABLE user (
+                      id bigint(20) not null auto_increment,
+                      loginId varchar(20) not null UNIQUE,
+                      loginPw varchar(100) not null,
+                      username varchar(20) not null,
+                      email varchar(100) not null UNIQUE,
+                      createDate datetime not null,
+                      updateDate datetime not null,
+                      primary key(id)
+);
+INSERT INTO user(loginid, loginPw, username, email, createDate, updateDate)
+values('test','test','test','test@test',now(),now());
 
 select * from article;
 
@@ -34,13 +43,14 @@ BEGIN
 	DECLARE i INT DEFAULT 1;
     WHILE (i<=1000)
     DO
-		INSERT INTO article(createDate, updateDate, title, content)
-        VALUES(now(),now(), CONCAT('제목-', i), CONCAT('내용-',i));
+		INSERT INTO article(createDate, updateDate, title, content, userId)
+        VALUES(now(),now(), CONCAT('제목-', i), CONCAT('내용-',i), (i % 10)+1);
 	SET i=i+1;
 END WHILE;
 END $$
 DELIMITER ;
 CALL loopInsert();
+
 
 SELECT RAND() * 100; -- 랜덤
 SELECT CONCAT('제목-', FLOOR(RAND()*100));

@@ -34,9 +34,11 @@ public class ArticleList extends HttpServlet {
         int totalPage = (int) Math.ceil((double)totalCount / limitTo);
 
         sql = new SecSql();
-        sql.append("SELECT *");
-        sql.append("FROM article ");
-        sql.append("ORDER BY id DESC");
+        sql.append("SELECT A.*, U.username AS writer");
+        sql.append("FROM article AS A");
+        sql.append("INNER JOIN `user` AS U");
+        sql.append("ON A.userId = U.id");
+        sql.append("ORDER BY A.id DESC");
         sql.append("LIMIT ?, ?", limitFrom, limitTo);
 
         final List<Map<String, Object>> articleList = MysqlUtil.selectRows(sql);
