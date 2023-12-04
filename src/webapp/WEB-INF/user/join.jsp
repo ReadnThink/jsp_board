@@ -74,16 +74,16 @@ ServletResponseDto servletResponseDto = new ServletResponseDto(request, response
 <section class="join_section">
     <div class="con">
         <h1>회원가입</h1>
-        <form action="doJoin" method="POST" onsubmit="return JoinForm_submit(this);">
-            <div>이름 : <input autocomplete="off" name="username" placeholder="이름을 입력해 주세요" type="text"></div>
-            <div>이메일 : <input autocomplete="off" name="email" placeholder="이메일을 입력해 주세요" type="email"></div>
-            <div>아이디 : <input autocomplete="off" name="loginId" placeholder="아이디 입력해 주세요" type="text"></div>
-            <div>패스워드 : <input autocomplete="off" name="loginPw" placeholder="비밀번호를 입력해 주세요" type="password"></div>
-            <div>패스워드 확인 : <input autocomplete="off" name="loginPwConfirm" placeholder="비밀번호를 입력해 주세요" type="password"></div>
+        <form action="../join/doJoin" method="POST" onsubmit="return JoinForm_submit(this);">
+            <div>이름 : <input name="username" placeholder="이름을 입력해 주세요" type="text"></div>
+            <div>이메일 : <input name="email" placeholder="이메일을 입력해 주세요" type="email"></div>
+            <div>아이디 : <input name="loginId" placeholder="아이디 입력해 주세요" type="text"></div>
+            <div>패스워드 : <input name="loginPw" placeholder="비밀번호를 입력해 주세요" type="password"></div>
+            <div>패스워드 확인 : <input name="loginPwConfirm" placeholder="비밀번호를 입력해 주세요" type="password"></div>
             <div class="btn-group">
                 <button type="submit">회원가입</button>
                 <button type="button">
-                    <a href="list">취소</a>
+                    <a href="/article/list">취소</a>
                 </button>
             </div>
         </form>

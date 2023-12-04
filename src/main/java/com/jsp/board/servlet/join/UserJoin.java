@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/user/join")
-public class ArticleJoin extends HttpServlet {
+public class UserJoin extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         ServletResponseDto servletResponseDto = new ServletResponseDto(req, resp);

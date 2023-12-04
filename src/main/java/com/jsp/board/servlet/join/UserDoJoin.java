@@ -1,4 +1,4 @@
-package com.jsp.board.servlet.article;
+package com.jsp.board.servlet.join;
 
 import com.jsp.board.util.ServletResponseDto;
 import com.jsp.board.util.db.MysqlUtil;
@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/user/doJoin")
-public class ArticleDoJoin extends HttpServlet {
+public class UserDoJoin extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         MysqlUtil.setDBInfo("localhost", "root", "1234", "jspboard");
@@ -26,6 +26,36 @@ public class ArticleDoJoin extends HttpServlet {
         String email = servletResponseDto.getParam("email", "");
 
         SecSql sql = new SecSql();
+        sql.append("SELECT COUNT(*) AS cnt");
+        sql.append("FROM USER");
+        sql.append("WHERE loginId = ?", loginId);
+
+        boolean isJoinAvailableLoginId = MysqlUtil.selectRowIntValue(sql) == 0;
+        if (!isJoinAvailableLoginId) {
+            servletResponseDto.appendBody("""
+                    <script>
+                        alert('%s 이미 사용중인 아이디 입니다.');
+                        history.back();
+                    </script>
+                    """.formatted(loginId));
+        }
+
+        sql = new SecSql();
+        sql.append("SELECT COUNT(*) AS cnt");
+        sql.append("FROM USER");
+        sql.append("WHERE email = ?", email);
+        boolean isJoinAvailableEmail = MysqlUtil.selectRowIntValue(sql) == 0;
+        if (!isJoinAvailableEmail) {
+            servletResponseDto.appendBody("""
+                    <script>
+                        alert('%s 이미 사용중인 이메일 입니다.');
+                        history.back();
+                    </script>
+                    """.formatted(loginId));
+        }
+
+
+        sql = new SecSql();
         sql.append("INSERT INTO user ");
         sql.append("SET createDate = NOW()");
         sql.append(", updateDate = NOW()");
