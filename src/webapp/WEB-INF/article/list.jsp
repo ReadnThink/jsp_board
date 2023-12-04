@@ -39,7 +39,7 @@
 <section class="section">
     <div class="con">
         <h1>게시물 리스트</h1>
-
+        <%@include file="/parts/navbar.jspf"%>
         <table border="1" style="border-collapse: collapse; text-align:center;">
             <colgroup>
                 <col width="50">

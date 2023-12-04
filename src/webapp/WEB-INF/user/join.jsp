@@ -74,6 +74,7 @@ ServletResponseDto servletResponseDto = new ServletResponseDto(request, response
 <section class="join_section">
     <div class="con">
         <h1>회원가입</h1>
+        <%@include file="/parts/navbar.jspf"%>
         <form action="../user/doJoin" method="POST" onsubmit="return JoinForm_submit(this);">
             <div>이름 : <input name="username" placeholder="이름을 입력해 주세요" type="text"></div>
             <div>이메일 : <input name="email" placeholder="이메일을 입력해 주세요" type="email"></div>

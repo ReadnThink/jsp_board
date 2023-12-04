@@ -32,6 +32,7 @@
 <section class="write_section">
     <div class="con">
         <h1>글 작성</h1>
+        <%@include file="/parts/navbar.jspf"%>
         <form action="doWrite" method="POST">
             <div>제목 : <input autocomplete="off" name="title" placeholder="제목을 입력해 주세요" type="text"></div>
             <div>내용 : <textarea autocomplete="off" name="content" placeholder="내용을 입력해 주세요" type="text"></textarea></div>

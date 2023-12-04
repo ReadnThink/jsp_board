@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.Map;
@@ -21,6 +22,28 @@ public class ArticleDetail extends HttpServlet {
         MysqlUtil.setDevMode(true);
 
         ServletResponseDto servletResponseDto = new ServletResponseDto(req, resp);
+
+        //로그인, 세션 로직
+        HttpSession session = req.getSession();
+        boolean isLogined = false;
+        int loginedUserId = -1;
+        Map<String, Object> loginUserRow = null;
+        if (session.getAttribute("loginUserId") != null) {
+            loginedUserId = (int) session.getAttribute("loginUserId");
+            isLogined = true;
+
+            SecSql sql = new SecSql();
+            sql.append("SELECT * FROM user");
+            sql.append("WHERE id = ?", loginedUserId);
+
+            loginUserRow = MysqlUtil.selectRow(sql);
+        }
+
+
+        servletResponseDto.setAttribute("isLogined", isLogined);
+        servletResponseDto.setAttribute("loginedUserId", loginedUserId);
+        servletResponseDto.setAttribute("loginUserRow", loginUserRow);
+        // 로그인 로직 종료
 
         int id = servletResponseDto.getIntParam("id", 0);
 

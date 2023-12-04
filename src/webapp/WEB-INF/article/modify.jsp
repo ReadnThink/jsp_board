@@ -32,6 +32,7 @@
 <section class="write_section">
     <div class="con">
         <h1>글 수정</h1>
+        <%@include file="/parts/navbar.jspf"%>
         <form action="doModify" method="POST">
             <input type="hidden" name="id" value="${param.id}">
             <div>제목 : <input autocomplete="off" name="title" placeholder="제목을 입력해 주세요" type="text" value="<%=(String)articleRow.get("title")%>"></div>

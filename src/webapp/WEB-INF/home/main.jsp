@@ -1,14 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%@ page import="com.jsp.board.util.ServletResponseDto"%>
-
-<%
-    ServletResponseDto servletResponseDto = new ServletResponseDto(request, response);
-    boolean isLogined = (boolean) servletResponseDto.getAttribute("isLogined");
-    int loginedUserId = (int) servletResponseDto.getAttribute("loginedUserId");
-    String loginUserName = (String) servletResponseDto.getAttribute("loginUserName");
-%>
-
 <!doctype html>
 <html lang="ko">
 <head>
@@ -32,23 +23,6 @@
         }
     </style>
     <h1>메인 페이지</h1>
-    <% if(isLogined) { %>
-        <div>
-            <%=loginUserName%> 회원님 환영합니다.
-        </div>
-    <% } %>
-
-    <nav class="menu-box-1">
-        <ul style="display: flex; gap: 0 10px">
-            <li><a href="/article/list">게시물 리스트</a></li>
-            <li><a href="/user/join">회원가입</a></li>
-            <% if(!isLogined) { %>
-            <li><a href="/user/login">로그인</a></li>
-            <% } %>
-            <% if(isLogined) { %>
-            <li><a href="/user/doLogout">로그아웃</a></li>
-            <% } %>
-        </ul>
-    </nav>
+    <%@include file="/parts/navbar.jspf"%>
 </body>
 </html>

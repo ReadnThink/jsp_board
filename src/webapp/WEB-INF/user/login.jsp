@@ -59,6 +59,7 @@ ServletResponseDto servletResponseDto = new ServletResponseDto(request, response
 <section class="login_section">
     <div class="con">
         <h1>로그인</h1>
+        <%@include file="/parts/navbar.jspf"%>
         <form action="../user/doLogin" method="POST" onsubmit="return LoginForm_submit(this);">
             <div>아이디 : <input name="loginId" placeholder="아이디 입력해 주세요" type="text"></div>
             <div>패스워드 : <input name="loginPw" placeholder="비밀번호를 입력해 주세요" type="password"></div>
