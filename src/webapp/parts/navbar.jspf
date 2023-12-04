@@ -7,6 +7,19 @@ int loginedUserId = (int) request.getAttribute("loginedUserId");
 Map<String, Object> loginUserRow = (Map<String, Object>) request.getAttribute("loginUserRow");
 %>
 
+<style>
+    body, ul, li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .section {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
 <% if(isLogined) { %>
 <div>
     "<%=loginUserRow.get("username")%>" 회원님 환영합니다.

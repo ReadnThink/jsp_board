@@ -10,18 +10,7 @@
     <title>메인 페이지</title>
 </head>
 <body>
-    <style>
-        body, ul, li {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
 
-        .section {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
     <h1>메인 페이지</h1>
     <%@include file="/parts/navbar.jspf"%>
 </body>
