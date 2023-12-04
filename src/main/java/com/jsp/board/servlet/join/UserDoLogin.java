@@ -8,11 +8,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.Map;
 
-@WebServlet("/user/doJoin")
-public class UserDoJoin extends HttpServlet {
+@WebServlet("/user/doLogin")
+public class UserDoLogin extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
         MysqlUtil.setDBInfo("localhost", "root", "1234", "jspboard");
@@ -22,56 +24,40 @@ public class UserDoJoin extends HttpServlet {
 
         String loginId = servletResponseDto.getParam("loginId", "");
         String loginPw = servletResponseDto.getParam("loginPw", "");
-        String username = servletResponseDto.getParam("username", "");
-        String email = servletResponseDto.getParam("email", "");
 
         SecSql sql = new SecSql();
-        sql.append("SELECT COUNT(*) AS cnt");
+        sql.append("SELECT * ");
         sql.append("FROM USER");
         sql.append("WHERE loginId = ?", loginId);
 
-        boolean isJoinAvailableLoginId = MysqlUtil.selectRowIntValue(sql) == 0;
-        if (!isJoinAvailableLoginId) {
+        Map<String, Object> userRow = MysqlUtil.selectRow(sql);
+        if (userRow.isEmpty()) {
             servletResponseDto.appendBody("""
                     <script>
-                        alert('%s 이미 사용중인 아이디 입니다.');
+                        alert('아이디가 일치하지 않습니다.');
                         history.back();
                     </script>
-                    """.formatted(loginId));
+                    """);
         }
 
-        sql = new SecSql();
-        sql.append("SELECT COUNT(*) AS cnt");
-        sql.append("FROM USER");
-        sql.append("WHERE email = ?", email);
-        boolean isJoinAvailableEmail = MysqlUtil.selectRowIntValue(sql) == 0;
-        if (!isJoinAvailableEmail) {
+        if (((String) userRow.get("loginPw")).equals(loginPw) == false) {
             servletResponseDto.appendBody("""
                     <script>
-                        alert('%s 이미 사용중인 이메일 입니다.');
+                        alert('패스워드가 일치하지 않습니다.');
                         history.back();
                     </script>
-                    """.formatted(email));
+                    """);
         }
 
-
-        sql = new SecSql();
-        sql.append("INSERT INTO user ");
-        sql.append("SET createDate = NOW()");
-        sql.append(", updateDate = NOW()");
-        sql.append(", loginId = ?",loginId);
-        sql.append(", loginPw = ?",loginPw);
-        sql.append(", username = ?",username);
-        sql.append(", email = ?",email);
-
-        int id = MysqlUtil.insert(sql);
-        System.out.println(id);
+        HttpSession session = req.getSession();
+        session.setAttribute("loginUserId", userRow.get("id"));
+        session.setAttribute("loginUserName", userRow.get("username"));
         servletResponseDto.appendBody("""
                     <script>
-                        alert('회원가입이 완료되었습니다.');
+                        alert('로그인 되었습니다.');
                         location.replace('../home');
                     </script>
-                    """.formatted(id,id));
+                    """);
 
         MysqlUtil.closeConnection();
     }
