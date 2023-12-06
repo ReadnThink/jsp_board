@@ -3,7 +3,6 @@ package com.jsp.board.servlet.article;
 import com.jsp.board.util.ServletResponseDto;
 import com.jsp.board.util.db.MysqlUtil;
 import com.jsp.board.util.db.SecSql;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet("/article/detail")
+@WebServlet("/user/article/detail")
 public class ArticleDetail extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {

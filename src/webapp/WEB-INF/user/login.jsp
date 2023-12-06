@@ -66,7 +66,7 @@ ServletResponseDto servletResponseDto = new ServletResponseDto(request, response
             <div class="btn-group">
                 <button type="submit">로그인</button>
                 <button type="button">
-                    <a href="/article/list">취소</a>
+                    <a href="/user/article/list">취소</a>
                 </button>
             </div>
         </form>
