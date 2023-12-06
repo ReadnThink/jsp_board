@@ -1,6 +1,7 @@
 package com.jsp.board;
 
 import com.jsp.board.controller.ArticleController;
+import com.jsp.board.controller.HomeController;
 import com.jsp.board.util.ServletResponseDto;
 import com.jsp.board.util.db.MysqlUtil;
 import com.jsp.board.util.db.SecSql;
@@ -32,7 +33,6 @@ public class DispatcherServlet extends HttpServlet {
         int minBitsCount = 3;
         System.out.println(requestUri);
         if (requestUriBits.length < minBitsCount) {
-            System.out.println("??");
             servletResponseDto.appendBody("올바른 요청이 아닙니다.");
             return;
         }
@@ -44,14 +44,24 @@ public class DispatcherServlet extends HttpServlet {
         String controllerTypeName = requestUriBits[controllerTypeNameIndex];
         String controllerName = requestUriBits[controllerNameIndex];
         String methodName = requestUriBits[methodIndex];
-
-
+        System.out.println(requestUri);
+        if (controllerName.equals("home")) {
+            HomeController homeController = new HomeController(servletResponseDto);
+            switch (methodName) {
+                case "main" -> homeController.getMain();
+            }
+        }
 
         if (controllerName.equals("article")) {
             ArticleController articleController = new ArticleController(servletResponseDto);
-
-            if (methodName.equals("list")) {
-                articleController.getList();
+            switch (methodName) {
+                case "list" -> articleController.getList();
+                case "detail" -> articleController.getDetail();
+                case "write" -> articleController.write();
+                case "doWrite" -> articleController.doWrite();
+                case "modify" -> articleController.modify();
+                case "doModify" -> articleController.doModify();
+                case "delete" -> articleController.delete();
             }
         }
 
